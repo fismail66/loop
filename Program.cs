@@ -23,19 +23,6 @@ namespace loop
             
             Run().GetAwaiter().GetResult();
         }
-        // static void Main(string[] args)
-        // {
-        //     Console.WriteLine("Press ESC to stop");
-        //     do
-        //     {
-        //         while (!Console.KeyAvailable)
-        //         {
-        //             Console.WriteLine("dfdf");
-        //         }
-        //     } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
-        // }
-
-
         static async Task Run()
         {
             do
@@ -75,10 +62,12 @@ namespace loop
                 Console.WriteLine($"Sampling: {samplingId}, deviceId: {appareilDbKey}, message Id: {messageId}, message: {message}");
             });
 
-            _hubConnection.On<string, string>("addSamplingToDevice", (samplingKey, deviceId) =>{});
-            _hubConnection.On<string, string>("removeSamplingToDevice", (samplingKey, deviceId) =>{});
-            
-            
+            _hubConnection.On<string, string>("addSamplingToDevice", (samplingKey, deviceId) =>{
+                Console.WriteLine($"Add device request for Sampling: {samplingKey}, device: {deviceId}");
+            });
+            _hubConnection.On<string, string>("removeSamplingToDevice", (samplingKey, deviceId) =>{
+                Console.WriteLine($"Remove device request for Sampling: {samplingKey}, device: {deviceId}");
+            });
 
             _hubConnection.On<string>("Send", (message) =>
             {
